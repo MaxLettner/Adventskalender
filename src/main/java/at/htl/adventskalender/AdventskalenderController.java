@@ -5,9 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class AdventskalenderController {
     @FXML
@@ -102,9 +106,21 @@ public class AdventskalenderController {
 
     }
 
-    public void setImage(ImageView imageview, String name) {
+    private void setImage(ImageView imageview, String name) {
         File file = new File("src/main/resources/images/" +  name + ".jpeg");
         Image image = new Image(file.toURI().toString());
         imageview.setImage(image);
     }
+
+    public void handleClick(MouseEvent event) {
+        LocalDate date = LocalDate.now();
+
+        IO.println(date.toString());
+
+        ImageView imageView = (ImageView) event.getSource();
+
+        setImage(imageView, "duck");
+    }
+
+
 }
