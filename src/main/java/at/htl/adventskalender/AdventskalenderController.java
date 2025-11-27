@@ -2,6 +2,7 @@ package at.htl.adventskalender;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -121,22 +123,32 @@ public class AdventskalenderController {
 
         ImageView imageView = (ImageView) event.getSource();
 
-        IO.println(checkDate(imageView));
+        if(checkDate(imageView)) {
+            setImage(imageView, "duck");
+        }else{
+            Image image = imageView.getImage();
+            setImage(imageView, "doom");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You are not allowed to see this yet, aren't you?");
+            alert.showAndWait();
+            imageView.setImage(image);
+        }
 
 
-        setImage(imageView, "duck");
+
     }
 
     public boolean checkDate(ImageView imageView) {
         if(cheat) return true;
 
-        LocalDate date = LocalDate.now();
+        //LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.of(2025, Month.DECEMBER,3);
         IO.println(date.toString());
 
         String s = imageView.getId().toString();
         int numDoor = Integer.parseInt(s.replace("image", ""));
 
-        LocalDate dateDoor = LocalDate.of(2025, Month.DECEMBER, numDoor);
+        LocalDate dateDoor = LocalDate.of(date.getYear(), Month.DECEMBER, numDoor);
         IO.println(dateDoor.toString());
 
         return !date.isBefore(dateDoor);
