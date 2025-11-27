@@ -7,9 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -68,6 +70,8 @@ public class AdventskalenderController {
     @FXML
     private Pane pane;
 
+    boolean cheat = false;
+
 
     public void initialize() {
         setImage(image1, "door1");
@@ -113,13 +117,29 @@ public class AdventskalenderController {
     }
 
     public void handleClick(MouseEvent event) {
-        LocalDate date = LocalDate.now();
 
-        IO.println(date.toString());
 
         ImageView imageView = (ImageView) event.getSource();
 
+        IO.println(checkDate(imageView));
+
+
         setImage(imageView, "duck");
+    }
+
+    public boolean checkDate(ImageView imageView) {
+        if(cheat) return true;
+
+        LocalDate date = LocalDate.now();
+        IO.println(date.toString());
+
+        String s = imageView.getId().toString();
+        int numDoor = Integer.parseInt(s.replace("image", ""));
+
+        LocalDate dateDoor = LocalDate.of(2025, Month.DECEMBER, numDoor);
+        IO.println(dateDoor.toString());
+
+        return !date.isBefore(dateDoor);
     }
 
 
