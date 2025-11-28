@@ -101,9 +101,8 @@ public class AdventskalenderController {
         setImage(image23, "door23");
         setImage(image24, "door24");
 
-        File file = new File("src/main/resources/images/bg.jpg");
-        Image image = new Image(file.toURI().toString());
-        BackgroundImage bgImage = new BackgroundImage(image,
+
+        BackgroundImage bgImage = new BackgroundImage(getImageFromName("bg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
@@ -113,9 +112,11 @@ public class AdventskalenderController {
     }
 
     private void setImage(ImageView imageview, String name) {
-        File file = new File("src/main/resources/images/" +  name + ".jpeg");
-        Image image = new Image(file.toURI().toString());
-        imageview.setImage(image);
+        imageview.setImage(getImageFromName(name));
+    }
+
+    private Image getImageFromName(String name) {
+        return new Image(new File("src/main/resources/images/" +  name + ".jpeg").toURI().toString());
     }
 
     public void handleClick(MouseEvent event) {
