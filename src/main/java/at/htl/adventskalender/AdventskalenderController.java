@@ -1,25 +1,20 @@
 package at.htl.adventskalender;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class AdventskalenderController {
-    @FXML
-    private VBox root;
     @FXML
     private ImageView image1;
     @FXML
@@ -72,34 +67,39 @@ public class AdventskalenderController {
     @FXML
     private Pane pane;
 
+    HashMap<ImageView, Door> doors = new HashMap<>();
+    Image doom = new Image(new File("src/main/resources/images/doom.jpeg").toURI().toString());
     boolean cheat = false;
 
 
     public void initialize() {
-        setImage(image1, "door1");
-        setImage(image2, "door2");
-        setImage(image3, "door3");
-        setImage(image4, "door4");
-        setImage(image5, "door5");
-        setImage(image6, "door6");
-        setImage(image7, "door7");
-        setImage(image8, "door8");
-        setImage(image9, "door9");
-        setImage(image10, "door10");
-        setImage(image11, "door11");
-        setImage(image12, "door12");
-        setImage(image13, "door13");
-        setImage(image14, "door14");
-        setImage(image15, "door15");
-        setImage(image16, "door16");
-        setImage(image17, "door17");
-        setImage(image18, "door18");
-        setImage(image19, "door19");
-        setImage(image20, "door20");
-        setImage(image21, "door21");
-        setImage(image22, "door22");
-        setImage(image23, "door23");
-        setImage(image24, "door24");
+
+        doors.put(image1,new Door("door1","duck", true));
+        doors.put(image2,new Door("door2","duck", true));
+        doors.put(image3,new Door("door3","duck", true));
+        doors.put(image4,new Door("door4","duck", true));
+        doors.put(image5,new Door("door5","duck", true));
+        doors.put(image6,new Door("door6","duck", true));
+        doors.put(image7,new Door("door7","duck", true));
+        doors.put(image8,new Door("door8","duck", true));
+        doors.put(image9,new Door("door9","duck", true));
+        doors.put(image10,new Door("door10","duck", true));
+        doors.put(image11,new Door("door11","duck", true));
+        doors.put(image12,new Door("door12","duck", true));
+        doors.put(image13,new Door("door13","duck", true));
+        doors.put(image14,new Door("door14","duck", true));
+        doors.put(image15,new Door("door15","duck", true));
+        doors.put(image16,new Door("door16","duck", true));
+        doors.put(image17,new Door("door17","duck", true));
+        doors.put(image18,new Door("door18","duck", true));
+        doors.put(image19,new Door("door19","duck", true));
+        doors.put(image20,new Door("door20","duck", true));
+        doors.put(image21,new Door("door21","duck", true));
+        doors.put(image22,new Door("door22","duck", true));
+        doors.put(image23,new Door("door23","duck", true));
+        doors.put(image24,new Door("door24","duck", true));
+
+        setImagesToDoor();
 
 
         BackgroundImage bgImage = new BackgroundImage(getImageFromName("bg"),
@@ -109,6 +109,16 @@ public class AdventskalenderController {
                 new BackgroundSize(100, 100, true, true, false, true));
         pane.setBackground(new Background(bgImage));
 
+    }
+
+    private void setImagesToDoor() {
+        for(ImageView i : doors.keySet()) {
+            if (doors.get(i).getIsClosed()) {
+                i.setImage(doors.get(i).getImageClosed());
+            }else {
+                i.setImage(doors.get(i).getImageOpen());
+            }
+        }
     }
 
     private void setImage(ImageView imageview, String name) {

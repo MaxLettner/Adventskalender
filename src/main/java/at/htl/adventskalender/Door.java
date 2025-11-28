@@ -8,17 +8,23 @@ import java.io.File;
 public class Door {
     private Image _imageClosed;
     private Image _imageOpen;
-    private Image _imageDoom;
-    private ImageView _imageView;
+    private boolean _isClosed;
 
-    Door(ImageView imageView,String nameClosed, String nameOpen) {
-        _imageView = imageView;
+    Door(String nameClosed, String nameOpen, boolean isClosed) {
         _imageClosed = getImageFromName(nameClosed);
         _imageOpen = getImageFromName(nameOpen);
-        _imageDoom = getImageFromName("doom");
+        _isClosed = isClosed;
     }
 
     private Image getImageFromName(String name) {
         return new Image(new File("src/main/resources/images/" +  name + ".jpeg").toURI().toString());
     }
+
+    public Image getImageClosed() {
+        return _imageClosed;
+    }
+    public Image getImageOpen() {
+        return _imageOpen;
+    }
+    public boolean getIsClosed() { return _isClosed;}
 }
