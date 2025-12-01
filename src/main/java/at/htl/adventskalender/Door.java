@@ -1,7 +1,6 @@
 package at.htl.adventskalender;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
 
@@ -17,7 +16,8 @@ public class Door {
     }
 
     private Image getImageFromName(String name) {
-        return new Image(new File("src/main/resources/images/" +  name + ".jpeg").toURI().toString());
+        return new Image(getClass().getResource("/images/" + name + ".jpeg").toExternalForm());
+
     }
 
     public Image getImageClosed() {

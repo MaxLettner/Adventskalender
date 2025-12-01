@@ -68,7 +68,7 @@ public class AdventskalenderController {
     private Pane pane;
 
     HashMap<ImageView, Door> doors = new HashMap<>();
-    Image doom = new Image(new File("src/main/resources/images/doom.jpeg").toURI().toString());
+    Image doom = getImageFromName("doom");
     boolean cheat = false;
 
 
@@ -126,7 +126,7 @@ public class AdventskalenderController {
     }
 
     private Image getImageFromName(String name) {
-        return new Image(new File("src/main/resources/images/" +  name + ".jpeg").toURI().toString());
+        return new Image(getClass().getResource("/images/" + name + ".jpeg").toExternalForm());
     }
 
     public void handleClick(MouseEvent event) {
