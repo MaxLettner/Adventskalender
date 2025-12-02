@@ -152,8 +152,7 @@ public class AdventskalenderController {
     public boolean checkDate(ImageView imageView) {
         if(cheat) return true;
 
-        //LocalDate date = LocalDate.now();
-        LocalDate date = LocalDate.of(2025, Month.DECEMBER,3);
+        LocalDate date = LocalDate.now();
         IO.println(date.toString());
 
         String s = imageView.getId().toString();
