@@ -1,12 +1,20 @@
 package at.htl.adventskalender;
 
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.control.Alert;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
+import java.awt.font.ImageGraphicAttribute;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.Month;
@@ -65,6 +73,9 @@ public class AdventskalenderController {
     private ImageView image24;
 
     @FXML
+    private ImageView imageOpeningAnimation;
+
+    @FXML
     private Pane pane;
 
     HashMap<ImageView, Door> doors = new HashMap<>();
@@ -99,6 +110,11 @@ public class AdventskalenderController {
         doors.put(image23,new Door("door23","duck", true));
         doors.put(image24,new Door("door24","duck", true));
 
+        Bloom bloom = new Bloom();
+        bloom.setThreshold(0.95);
+        pane.setEffect(bloom);
+
+
         setImagesToDoor();
 
 
@@ -121,10 +137,6 @@ public class AdventskalenderController {
         }
     }
 
-    private void setImage(ImageView imageview, String name) {
-        imageview.setImage(getImageFromName(name));
-    }
-
     private Image getImageFromName(String name) {
         return new Image(getClass().getResource("/images/" + name + ".jpeg").toExternalForm());
     }
@@ -135,10 +147,14 @@ public class AdventskalenderController {
         ImageView imageView = (ImageView) event.getSource();
 
         if(checkDate(imageView)) {
-            setImage(imageView, "duck");
+            openDoorAnimation(imageView);
+
+            imageView.setImage(doors.get(imageView).getImageOpen());
+
+
         }else{
             Image image = imageView.getImage();
-            setImage(imageView, "doom");
+            imageView.setImage(doom);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You are not allowed to see this yet, aren't you?");
             alert.showAndWait();
@@ -147,6 +163,23 @@ public class AdventskalenderController {
 
 
 
+            imageView.setImage(doors.get(imageView).getImageOpen());
+    }
+
+    public void openDoorAnimation(ImageView imageView) {
+        imageOpeningAnimation.setLayoutX(imageView.getLayoutX());
+        imageOpeningAnimation.setLayoutY(imageView.getLayoutY());
+        imageOpeningAnimation.setImage(imageView.getImage());
+        imageOpeningAnimation.setVisible(true);
+        imageOpeningAnimation.toFront();
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setAxis(new Point3D(0,1,0));
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setToAngle(90);
+        rotateTransition.setDuration(Duration.millis(2000));
+        rotateTransition.setNode(imageOpeningAnimation);
+
+        rotateTransition.play();
     }
 
     public boolean checkDate(ImageView imageView) {

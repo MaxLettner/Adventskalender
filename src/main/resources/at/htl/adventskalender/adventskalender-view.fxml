@@ -38,6 +38,8 @@
         <ImageView fx:id="image23" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
         <ImageView fx:id="image24" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
 
+        <ImageView fx:id="imageOpeningAnimation" fitHeight="200" fitWidth="200" layoutX="1920" layoutY="1080" preserveRatio="true"/>
+
 
     </Pane>
 
