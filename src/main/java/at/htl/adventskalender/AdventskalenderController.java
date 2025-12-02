@@ -1,6 +1,9 @@
 package at.htl.adventskalender;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Alert;
@@ -12,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.awt.font.ImageGraphicAttribute;
@@ -172,14 +176,19 @@ public class AdventskalenderController {
         imageOpeningAnimation.setImage(imageView.getImage());
         imageOpeningAnimation.setVisible(true);
         imageOpeningAnimation.toFront();
-        RotateTransition rotateTransition = new RotateTransition();
-        rotateTransition.setAxis(new Point3D(0,1,0));
-        rotateTransition.setFromAngle(0);
-        rotateTransition.setToAngle(90);
-        rotateTransition.setDuration(Duration.millis(2000));
-        rotateTransition.setNode(imageOpeningAnimation);
 
-        rotateTransition.play();
+        imageOpeningAnimation.getTransforms().clear();
+
+        imageOpeningAnimation.setTranslateX(0);
+        Rotate rotate = new Rotate(0, 0, imageOpeningAnimation.getFitHeight() / 2, 0, Rotate.Y_AXIS);
+        imageOpeningAnimation.getTransforms().add(rotate);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(rotate.angleProperty(), 0)),
+                new KeyFrame(Duration.millis(2000), new KeyValue(rotate.angleProperty(), -90))
+        );
+
+        timeline.play();
     }
 
     public boolean checkDate(ImageView imageView) {
