@@ -17,7 +17,6 @@ public class Door {
 
     private Image getImageFromName(String name) {
         return new Image(getClass().getResource("/images/" + name + ".jpeg").toExternalForm());
-
     }
 
     public Image getImageClosed() {
@@ -27,4 +26,7 @@ public class Door {
         return _imageOpen;
     }
     public boolean getIsClosed() { return _isClosed;}
+    public void setIsClosed(boolean isClosed) {
+        _isClosed = isClosed;
+    }
 }

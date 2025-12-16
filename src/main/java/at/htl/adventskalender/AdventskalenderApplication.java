@@ -3,6 +3,7 @@ package at.htl.adventskalender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +21,11 @@ public class AdventskalenderApplication extends Application {
     public void loadStage(String name) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AdventskalenderApplication.class.getResource(name + "-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        scene.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.C) {
+                AdventskalenderController.toggleCheat();
+            }
+        });
         primaryStage.setTitle(name);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

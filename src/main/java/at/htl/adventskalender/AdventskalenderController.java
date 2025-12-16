@@ -2,15 +2,10 @@ package at.htl.adventskalender;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
-import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.geometry.Point3D;
 import javafx.scene.control.Alert;
 import javafx.scene.effect.Bloom;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,13 +13,12 @@ import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-import java.awt.font.ImageGraphicAttribute;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class AdventskalenderController {
     @FXML
@@ -77,42 +71,39 @@ public class AdventskalenderController {
     private ImageView image24;
 
     @FXML
-    private ImageView imageOpeningAnimation;
-
-    @FXML
     private Pane pane;
 
-    HashMap<ImageView, Door> doors = new HashMap<>();
-    Image doom = getImageFromName("doom");
-    boolean cheat = false;
+    private HashMap<ImageView, Door> doors = new HashMap<>();
+    private Image doom = getImageFromName("doom");
+    private static boolean cheat = false;
 
 
     public void initialize() {
 
         doors.put(image1,new Door("door1","duck", true));
-        doors.put(image2,new Door("door2","duck", true));
-        doors.put(image3,new Door("door3","duck", true));
-        doors.put(image4,new Door("door4","duck", true));
-        doors.put(image5,new Door("door5","duck", true));
-        doors.put(image6,new Door("door6","duck", true));
-        doors.put(image7,new Door("door7","duck", true));
-        doors.put(image8,new Door("door8","duck", true));
-        doors.put(image9,new Door("door9","duck", true));
-        doors.put(image10,new Door("door10","duck", true));
-        doors.put(image11,new Door("door11","duck", true));
-        doors.put(image12,new Door("door12","duck", true));
-        doors.put(image13,new Door("door13","duck", true));
-        doors.put(image14,new Door("door14","duck", true));
-        doors.put(image15,new Door("door15","duck", true));
-        doors.put(image16,new Door("door16","duck", true));
-        doors.put(image17,new Door("door17","duck", true));
-        doors.put(image18,new Door("door18","duck", true));
-        doors.put(image19,new Door("door19","duck", true));
-        doors.put(image20,new Door("door20","duck", true));
-        doors.put(image21,new Door("door21","duck", true));
-        doors.put(image22,new Door("door22","duck", true));
-        doors.put(image23,new Door("door23","duck", true));
-        doors.put(image24,new Door("door24","duck", true));
+        doors.put(image2,new Door("door2","duck2", true));
+        doors.put(image3,new Door("door3","duck3", true));
+        doors.put(image4,new Door("door4","duck4", true));
+        doors.put(image5,new Door("door5","duck5", true));
+        doors.put(image6,new Door("door6","duck6", true));
+        doors.put(image7,new Door("door7","duck7", true));
+        doors.put(image8,new Door("door8","duck8", true));
+        doors.put(image9,new Door("door9","duck9", true));
+        doors.put(image10,new Door("door10","duck10", true));
+        doors.put(image11,new Door("door11","duck11", true));
+        doors.put(image12,new Door("door12","duck12", true));
+        doors.put(image13,new Door("door13","duck13", true));
+        doors.put(image14,new Door("door14","duck14", true));
+        doors.put(image15,new Door("door15","duck15", true));
+        doors.put(image16,new Door("door16","duck16", true));
+        doors.put(image17,new Door("door17","duck17", true));
+        doors.put(image18,new Door("door18","duck18", true));
+        doors.put(image19,new Door("door19","duck19", true));
+        doors.put(image20,new Door("door20","duck20", true));
+        doors.put(image21,new Door("door21","duck21", true));
+        doors.put(image22,new Door("door22","duck22", true));
+        doors.put(image23,new Door("door23","duck23", true));
+        doors.put(image24,new Door("door24","duck24", true));
 
         Bloom bloom = new Bloom();
         bloom.setThreshold(0.95);
@@ -122,12 +113,15 @@ public class AdventskalenderController {
         setImagesToDoor();
 
 
-        BackgroundImage bgImage = new BackgroundImage(getImageFromName("bg"),
+        BackgroundImage bgImage = new BackgroundImage(
+                getImageFromName("bg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 new BackgroundSize(100, 100, true, true, false, true));
         pane.setBackground(new Background(bgImage));
+
+        FileHandler.writeToFile();
 
     }
 
@@ -149,47 +143,61 @@ public class AdventskalenderController {
 
 
         ImageView imageView = (ImageView) event.getSource();
+        if(doors.get(imageView).getIsClosed()) {
+            if(checkDate(imageView)) {
+                openDoorAnimation(imageView);
 
-        if(checkDate(imageView)) {
-            openDoorAnimation(imageView);
-
-            imageView.setImage(doors.get(imageView).getImageOpen());
+                imageView.setImage(doors.get(imageView).getImageOpen());
+                doors.get(imageView).setIsClosed(false);
 
 
-        }else{
-            Image image = imageView.getImage();
-            imageView.setImage(doom);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("You are not allowed to see this yet, aren't you?");
-            alert.showAndWait();
-            imageView.setImage(image);
+            }else{
+                imageView.setImage(doom);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("You are not allowed to see this yet, aren't you?");
+                alert.showAndWait();
+                imageView.setImage(doors.get(imageView).getImageClosed());
+            }
         }
 
 
-
-            imageView.setImage(doors.get(imageView).getImageOpen());
     }
 
-    public void openDoorAnimation(ImageView imageView) {
-        imageOpeningAnimation.setLayoutX(imageView.getLayoutX());
-        imageOpeningAnimation.setLayoutY(imageView.getLayoutY());
-        imageOpeningAnimation.setImage(imageView.getImage());
-        imageOpeningAnimation.setVisible(true);
-        imageOpeningAnimation.toFront();
+    public void openDoorAnimation(ImageView original) {
+        ImageView animationImageView = new ImageView(original.getImage());
+        animationImageView.setFitWidth(original.getFitWidth());
+        animationImageView.setFitHeight(original.getFitHeight());
 
-        imageOpeningAnimation.getTransforms().clear();
+        animationImageView.setLayoutX(original.getLayoutX());
+        animationImageView.setLayoutY(original.getLayoutY());
+        animationImageView.setVisible(true);
 
-        imageOpeningAnimation.setTranslateX(0);
-        Rotate rotate = new Rotate(0, 0, imageOpeningAnimation.getFitHeight() / 2, 0, Rotate.Y_AXIS);
-        imageOpeningAnimation.getTransforms().add(rotate);
+        pane.getChildren().add(animationImageView);
+
+        animationImageView.getTransforms().clear();
+        animationImageView.setTranslateX(0);
+
+        Rotate rotate = new Rotate(
+                0,
+                0,
+                animationImageView.getFitHeight() / 2,
+                0,
+                Rotate.Y_AXIS
+        );
+        animationImageView.getTransforms().add(rotate);
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(rotate.angleProperty(), 0)),
                 new KeyFrame(Duration.millis(2000), new KeyValue(rotate.angleProperty(), -90))
         );
 
+        timeline.setOnFinished(e -> {
+            pane.getChildren().remove(animationImageView); // cleanup
+        });
+
         timeline.play();
     }
+
 
     public boolean checkDate(ImageView imageView) {
         if(cheat) return true;
@@ -205,6 +213,14 @@ public class AdventskalenderController {
 
         return !date.isBefore(dateDoor);
     }
+
+
+
+    public static void toggleCheat() {
+        cheat = !cheat;
+    }
+
+
 
 
 }
