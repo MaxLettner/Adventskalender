@@ -5,17 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandler {
-    public static String path = FileHandler.class.getResource("/data/states.adv").toExternalForm();
+    public String path = getClass().getResource("/data/states.adv").toExternalForm();
 
-    public static void writeToFile() {
+    public void writeToFile() {
         try {
             File file = new File(path);
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter writer = new FileWriter(file);
-        } catch (IOException e) {
+            FileWriter writer = new FileWriter(path);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

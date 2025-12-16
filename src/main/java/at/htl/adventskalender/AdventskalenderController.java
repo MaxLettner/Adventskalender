@@ -77,6 +77,8 @@ public class AdventskalenderController {
     private Image doom = getImageFromName("doom");
     private static boolean cheat = false;
 
+    FileHandler fh = new FileHandler();
+
 
     public void initialize() {
 
@@ -120,8 +122,9 @@ public class AdventskalenderController {
                 BackgroundPosition.CENTER,
                 new BackgroundSize(100, 100, true, true, false, true));
         pane.setBackground(new Background(bgImage));
+        fh.writeToFile();
 
-        FileHandler.writeToFile();
+        //TODO: Fix FILEHANDLING!!!
 
     }
 
