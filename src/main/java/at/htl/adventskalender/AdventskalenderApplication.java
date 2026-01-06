@@ -20,7 +20,7 @@ public class AdventskalenderApplication extends Application {
 
     public void loadStage(String name) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AdventskalenderApplication.class.getResource(name + "-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load());
         scene.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.C) {
                 AdventskalenderController.toggleCheat();
@@ -30,5 +30,12 @@ public class AdventskalenderApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+
+        //TODO: randomize ImageView ids in adventskalender-view
+        //TODO: FileHandler -> make a clear file method
+        //TODO: add music or sound effects
+        //TODO: add a menu
+        //TODO: fix the broken images and find new ones
+        //TODO: Comment
     }
 }
