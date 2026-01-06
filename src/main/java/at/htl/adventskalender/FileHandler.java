@@ -3,9 +3,6 @@ package at.htl.adventskalender;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.SQLOutput;
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,10 +20,6 @@ public class FileHandler {
     }
 
     public void writeToFile(List<Boolean> states) {
-        IO.println("before printing");
-        for(Boolean state : states) {
-            IO.println(state);
-        }
 
         try {
             File file = new File(filePath);
@@ -61,7 +54,6 @@ public class FileHandler {
             String[] fileContentInLines = fileContent.split(System.lineSeparator());
 
             for(int i = 0;i < 24;i++) {
-                IO.println(fileContentInLines[i]);
                 states.add(Objects.equals(fileContentInLines[i], "1"));
 
             }
@@ -71,10 +63,6 @@ public class FileHandler {
             e.printStackTrace();
         }
 
-        IO.println("before returning");
-        for(int i = 0;i < states.size();i++) {
-            IO.println(states.get(i));
-        }
 
         return states;
     }

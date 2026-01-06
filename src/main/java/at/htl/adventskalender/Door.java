@@ -2,7 +2,6 @@ package at.htl.adventskalender;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
 
 public class Door {
     private Image _imageClosed;
