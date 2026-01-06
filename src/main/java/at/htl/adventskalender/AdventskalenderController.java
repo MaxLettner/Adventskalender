@@ -18,103 +18,68 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class AdventskalenderController {
-    @FXML
-    private ImageView image1;
-    @FXML
-    private ImageView image2;
-    @FXML
-    private ImageView image3;
-    @FXML
-    private ImageView image4;
-    @FXML
-    private ImageView image5;
-    @FXML
-    private ImageView image6;
-    @FXML
-    private ImageView image7;
-    @FXML
-    private ImageView image8;
-    @FXML
-    private ImageView image9;
-    @FXML
-    private ImageView image10;
-    @FXML
-    private ImageView image11;
-    @FXML
-    private ImageView image12;
-    @FXML
-    private ImageView image13;
-    @FXML
-    private ImageView image14;
-    @FXML
-    private ImageView image15;
-    @FXML
-    private ImageView image16;
-    @FXML
-    private ImageView image17;
-    @FXML
-    private ImageView image18;
-    @FXML
-    private ImageView image19;
-    @FXML
-    private ImageView image20;
-    @FXML
-    private ImageView image21;
-    @FXML
-    private ImageView image22;
-    @FXML
-    private ImageView image23;
-    @FXML
-    private ImageView image24;
+    @FXML private ImageView image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24;
 
-    @FXML
-    private Pane pane;
+    @FXML private Pane pane;
 
-    private HashMap<ImageView, Door> doors = new HashMap<>();
-    private Image doom = getImageFromName("doom");
+    private HashMap<ImageView, Door> doors = new LinkedHashMap<>();
+
+    private final Image doom = getImageFromName("doom");
     private static boolean cheat = false;
 
     FileHandler fh = new FileHandler();
 
 
     public void initialize() {
+        List<ImageView> images = List.of(                           //temporary List for initalization of doors
+                image1, image2, image3, image4, image5, image6,
+                image7, image8, image9, image10, image11, image12,
+                image13, image14, image15, image16, image17, image18,
+                image19, image20, image21, image22, image23, image24
+        );
 
-        doors.put(image1,new Door("door1","duck", true));
-        doors.put(image2,new Door("door2","duck2", true));
-        doors.put(image3,new Door("door3","duck3", true));
-        doors.put(image4,new Door("door4","duck4", true));
-        doors.put(image5,new Door("door5","duck5", true));
-        doors.put(image6,new Door("door6","duck6", true));
-        doors.put(image7,new Door("door7","duck7", true));
-        doors.put(image8,new Door("door8","duck8", true));
-        doors.put(image9,new Door("door9","duck9", true));
-        doors.put(image10,new Door("door10","duck10", true));
-        doors.put(image11,new Door("door11","duck11", true));
-        doors.put(image12,new Door("door12","duck12", true));
-        doors.put(image13,new Door("door13","duck13", true));
-        doors.put(image14,new Door("door14","duck14", true));
-        doors.put(image15,new Door("door15","duck15", true));
-        doors.put(image16,new Door("door16","duck16", true));
-        doors.put(image17,new Door("door17","duck17", true));
-        doors.put(image18,new Door("door18","duck18", true));
-        doors.put(image19,new Door("door19","duck19", true));
-        doors.put(image20,new Door("door20","duck20", true));
-        doors.put(image21,new Door("door21","duck21", true));
-        doors.put(image22,new Door("door22","duck22", true));
-        doors.put(image23,new Door("door23","duck23", true));
-        doors.put(image24,new Door("door24","duck24", true));
 
+        boolean fileIntegrity = fh.checkFileIntegrity();
+        List<Boolean> fileContent = null;
+
+        if(fileIntegrity) {
+            fileContent = fh.readFromFile();
+        }else {
+            IO.println("Could not fetch file!");
+        }
+
+        for (int i = 0; i < images.size(); i++) {
+            if(fileIntegrity) {
+                doors.put(
+                        images.get(i),
+                        new Door("door" + (i + 1), "duck" + (i + 1), fileContent.get(i))
+                );
+
+            }else {
+                doors.put(
+                        images.get(i),
+                        new Door("door" + (i + 1), "duck" + (i + 1), true)
+                );
+
+            }
+        }
+
+
+        //bloom effect for makeing the images glow a bit
         Bloom bloom = new Bloom();
         bloom.setThreshold(0.95);
         pane.setEffect(bloom);
 
-
+        //sets the current images to the ImageView objects
         setImagesToDoor();
 
-
+        //sets the Background
         BackgroundImage bgImage = new BackgroundImage(
                 getImageFromName("bg"),
                 BackgroundRepeat.NO_REPEAT,
@@ -122,9 +87,6 @@ public class AdventskalenderController {
                 BackgroundPosition.CENTER,
                 new BackgroundSize(100, 100, true, true, false, true));
         pane.setBackground(new Background(bgImage));
-        fh.writeToFile();
-
-        //TODO: Fix FILEHANDLING!!!
 
     }
 
@@ -143,8 +105,6 @@ public class AdventskalenderController {
     }
 
     public void handleClick(MouseEvent event) {
-
-
         ImageView imageView = (ImageView) event.getSource();
         if(doors.get(imageView).getIsClosed()) {
             if(checkDate(imageView)) {
@@ -153,6 +113,10 @@ public class AdventskalenderController {
                 imageView.setImage(doors.get(imageView).getImageOpen());
                 doors.get(imageView).setIsClosed(false);
 
+                List<Boolean> states = new ArrayList<>();
+                doors.forEach((ImageView,Door) -> {states.add(Door.getIsClosed());});
+
+                fh.writeToFile(states);
 
             }else{
                 imageView.setImage(doom);
