@@ -9,33 +9,33 @@
 
     <Pane fx:id="pane" prefHeight="1080" prefWidth="1920">
 
-        <ImageView fx:id="image1" fitHeight="200" fitWidth="200" layoutX="100" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image2" fitHeight="200" fitWidth="200" layoutX="400" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image21" fitHeight="200" fitWidth="200" layoutX="700" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image4" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image5" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image6" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image16" fitHeight="200" fitWidth="200" layoutX="100" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image11" fitHeight="200" fitWidth="200" layoutX="400" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image12" fitHeight="200" fitWidth="200" layoutX="700" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image1" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image23" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image21" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="50" onMouseClicked="#handleClick" preserveRatio="true" />
 
-        <ImageView fx:id="image7" fitHeight="200" fitWidth="200" layoutX="100" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image8" fitHeight="200" fitWidth="200" layoutX="400" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image9" fitHeight="200" fitWidth="200" layoutX="700" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image10" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image11" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image12" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image22" fitHeight="200" fitWidth="200" layoutX="100" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image5" fitHeight="200" fitWidth="200" layoutX="400" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image3" fitHeight="200" fitWidth="200" layoutX="700" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image7" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image17" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image18" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="310" onMouseClicked="#handleClick" preserveRatio="true" />
 
         <ImageView fx:id="image13" fitHeight="200" fitWidth="200" layoutX="100" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image14" fitHeight="200" fitWidth="200" layoutX="400" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image15" fitHeight="200" fitWidth="200" layoutX="700" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image16" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image17" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image18" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image2" fitHeight="200" fitWidth="200" layoutX="400" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image9" fitHeight="200" fitWidth="200" layoutX="700" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image4" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image20" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image24" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="570" onMouseClicked="#handleClick" preserveRatio="true" />
 
         <ImageView fx:id="image19" fitHeight="200" fitWidth="200" layoutX="100" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image20" fitHeight="200" fitWidth="200" layoutX="400" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image3" fitHeight="200" fitWidth="200" layoutX="700" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image22" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image23" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
-        <ImageView fx:id="image24" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image14" fitHeight="200" fitWidth="200" layoutX="400" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image6" fitHeight="200" fitWidth="200" layoutX="700" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image10" fitHeight="200" fitWidth="200" layoutX="1000" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image8" fitHeight="200" fitWidth="200" layoutX="1300" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
+        <ImageView fx:id="image15" fitHeight="200" fitWidth="200" layoutX="1600" layoutY="830" onMouseClicked="#handleClick" preserveRatio="true" />
 
         <ImageView fx:id="imageOpeningAnimation" fitHeight="200" fitWidth="200" layoutX="1920" layoutY="1080" preserveRatio="true"/>
 

@@ -3,6 +3,7 @@ package at.htl.adventskalender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
@@ -29,13 +30,12 @@ public class AdventskalenderApplication extends Application {
         primaryStage.setTitle(name);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        primaryStage.getIcons().add(new Image(AdventskalenderApplication.class.getResourceAsStream("/images/icon.jpeg")));
         primaryStage.show();
 
-        //TODO: randomize ImageView ids in adventskalender-view
         //TODO: FileHandler -> make a clear file method
         //TODO: add music or sound effects
         //TODO: add a menu
-        //TODO: fix the broken images and find new ones
         //TODO: Comment
     }
 }
