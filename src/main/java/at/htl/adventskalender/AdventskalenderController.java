@@ -3,8 +3,11 @@ package at.htl.adventskalender;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,10 +17,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class AdventskalenderController {
     @FXML private ImageView image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24;
@@ -27,9 +27,11 @@ public class AdventskalenderController {
     private HashMap<ImageView, Door> doors = new LinkedHashMap<>();
 
     private final Image doom = getImageFromName("doom");
-    private static boolean cheat = false;
+    private String bgName = "bg1";
 
-    FileHandler fh = new FileHandler();
+    private boolean cheat = false;
+
+    private FileHandler fh = new FileHandler();
 
 
     public void initialize() {
@@ -45,7 +47,9 @@ public class AdventskalenderController {
         List<Boolean> fileContent = null;
 
         if(fileIntegrity) {
-            fileContent = fh.readFromFile();
+            FileContent fc = fh.readFromFile();
+            fileContent = fc.doorStates();
+            bgName = fc.bgName();
         }else {
             IO.println("Could not fetch file!");
         }
@@ -76,13 +80,7 @@ public class AdventskalenderController {
         setImagesToDoor();
 
         //sets the Background
-        BackgroundImage bgImage = new BackgroundImage(
-                getImageFromName("bg"),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                new BackgroundSize(100, 100, true, true, false, true));
-        pane.setBackground(new Background(bgImage));
+        setBackground(bgName);
 
     }
 
@@ -97,7 +95,7 @@ public class AdventskalenderController {
     }
 
     private Image getImageFromName(String name) {
-        return new Image(getClass().getResource("/images/" + name + ".jpeg").toExternalForm());
+        return new Image(AdventskalenderController.class.getResourceAsStream("/images/" + name + ".jpeg"));
     }
 
     public void handleClick(MouseEvent event) {
@@ -109,10 +107,7 @@ public class AdventskalenderController {
                 imageView.setImage(doors.get(imageView).getImageOpen());
                 doors.get(imageView).setIsClosed(false);
 
-                List<Boolean> states = new ArrayList<>();
-                doors.forEach((ImageView,Door) -> {states.add(Door.getIsClosed());});
-
-                fh.writeToFile(states);
+                writeToFile();
 
             }else{
                 imageView.setImage(doom);
@@ -126,18 +121,26 @@ public class AdventskalenderController {
 
     }
 
-    public void openDoorAnimation(ImageView original) {
-        ImageView animationImageView = new ImageView(original.getImage());
-        animationImageView.setFitWidth(original.getFitWidth());
-        animationImageView.setFitHeight(original.getFitHeight());
+    private void writeToFile() {
+        List<Boolean> states = new ArrayList<>();
+        doors.forEach((ImageView,Door) -> {states.add(Door.getIsClosed());});
 
-        animationImageView.setLayoutX(original.getLayoutX());
-        animationImageView.setLayoutY(original.getLayoutY());
+        fh.writeToFile(new FileContent(states, bgName));
+    }
+
+    public void openDoorAnimation(ImageView origView) {
+        ImageView animationImageView = new ImageView(origView.getImage());
+
+        animationImageView.setFitWidth(origView.getFitWidth());
+        animationImageView.setFitHeight(origView.getFitHeight());
+
+        animationImageView.setLayoutX(origView.getLayoutX());
+        animationImageView.setLayoutY(origView.getLayoutY());
+
         animationImageView.setVisible(true);
 
         pane.getChildren().add(animationImageView);
 
-        animationImageView.getTransforms().clear();
         animationImageView.setTranslateX(0);
 
         Rotate rotate = new Rotate(
@@ -147,6 +150,8 @@ public class AdventskalenderController {
                 0,
                 Rotate.Y_AXIS
         );
+
+        animationImageView.getTransforms().clear();
         animationImageView.getTransforms().add(rotate);
 
         Timeline timeline = new Timeline(
@@ -155,7 +160,7 @@ public class AdventskalenderController {
         );
 
         timeline.setOnFinished(e -> {
-            pane.getChildren().remove(animationImageView); // cleanup
+            pane.getChildren().remove(animationImageView);
         });
 
         timeline.play();
@@ -177,10 +182,68 @@ public class AdventskalenderController {
         return !date.isBefore(dateDoor);
     }
 
+    public void showMenu() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Menu");
+        alert.setHeaderText("Menu");
 
+        ButtonType back = new ButtonType("Back");
+        ButtonType cheat = new ButtonType("Toggle Cheats");
+        ButtonType clear = new ButtonType("Clear");
+        ButtonType bg = new ButtonType("Change Background");
+        ButtonType quit = new ButtonType("Quit");
 
-    public static void toggleCheat() {
+        alert.getButtonTypes().setAll(back, cheat, bg, clear, quit);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        AdventskalenderApplication.resetMenuState();
+        if (result.isEmpty() | result.get() == back) return;
+
+        if (result.get() == cheat) {
+            toggleCheat();
+        } else if (result.get() == clear) {
+            reset();
+        } else if(result.get() == bg) {
+            cycleBackgrounds();
+        } else if (result.get() == quit) {
+            Platform.exit();
+        }
+    }
+
+    public void reset() {
+        fh.delete();
+        doors.forEach((imageView, door) -> {door.setIsClosed(true);});
+        setImagesToDoor();
+    }
+
+    private void setBackground(String name) {
+        BackgroundImage bgImage = new BackgroundImage(
+                getImageFromName(name),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, false, true));
+        pane.setBackground(new Background(bgImage));
+    }
+
+    public void toggleCheat() {
         cheat = !cheat;
+    }
+
+    public void cycleBackgrounds() {
+        switch(bgName) {
+            case "bg1": bgName = "bg2";return;
+            case "bg2": bgName = "bg3";return;
+            case "bg3": bgName = "bg1";
+        }
+
+        setBackground(bgName);
+        writeToFile();
+    }
+
+    public String getBgName() {
+        return bgName;
     }
 
 
