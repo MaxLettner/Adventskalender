@@ -28,6 +28,7 @@ public class AdventskalenderApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(AdventskalenderApplication.class.getResource(name + "-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         AdventskalenderController controller = fxmlLoader.getController();
+        controller.setStage(primaryStage);
 
         scene.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.C) {
@@ -36,6 +37,9 @@ public class AdventskalenderApplication extends Application {
             if(e.getCode() == KeyCode.R) {
                 controller.reset();
             }
+            if(e.getCode() == KeyCode.B) {
+                controller.cycleBackgrounds();
+            }
             if(e.getCode() == KeyCode.ESCAPE & !menuState) {
                 menuState = true;
                 controller.showMenu();
@@ -43,15 +47,11 @@ public class AdventskalenderApplication extends Application {
         });
 
 
-        primaryStage.setTitle(name);
+        primaryStage.setTitle("Adventskalender");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.getIcons().add(new Image(AdventskalenderApplication.class.getResourceAsStream("/images/icon.jpeg")));
         primaryStage.show();
-
-        //TODO: add music or sound effects
-        //TODO: add a menu
-        //TODO: Comment
     }
 
     public static void resetMenuState() {

@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.Month;
@@ -23,6 +25,8 @@ public class AdventskalenderController {
     @FXML private ImageView image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24;
 
     @FXML private Pane pane;
+
+    private Stage stage;
 
     private HashMap<ImageView, Door> doors = new LinkedHashMap<>();
 
@@ -112,6 +116,8 @@ public class AdventskalenderController {
             }else{
                 imageView.setImage(doom);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initOwner(stage);
+                alert.initModality(Modality.WINDOW_MODAL);
                 alert.setContentText("You are not allowed to see this yet, aren't you?");
                 alert.showAndWait();
                 imageView.setImage(doors.get(imageView).getImageClosed());
@@ -184,6 +190,8 @@ public class AdventskalenderController {
 
     public void showMenu() {
         Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.initOwner(stage);
+        alert.initModality(Modality.WINDOW_MODAL);
         alert.setTitle("Menu");
         alert.setHeaderText("Menu");
 
@@ -215,6 +223,8 @@ public class AdventskalenderController {
         fh.delete();
         doors.forEach((imageView, door) -> {door.setIsClosed(true);});
         setImagesToDoor();
+        bgName = "bg1";
+        setBackground(bgName);
     }
 
     private void setBackground(String name) {
@@ -232,9 +242,10 @@ public class AdventskalenderController {
     }
 
     public void cycleBackgrounds() {
+        IO.println("test");
         switch(bgName) {
-            case "bg1": bgName = "bg2";return;
-            case "bg2": bgName = "bg3";return;
+            case "bg1": bgName = "bg2";break;
+            case "bg2": bgName = "bg3";break;
             case "bg3": bgName = "bg1";
         }
 
@@ -246,7 +257,9 @@ public class AdventskalenderController {
         return bgName;
     }
 
-
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
 
 }
